@@ -2,14 +2,21 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserController } from './user/user.controller';
-import { UserService } from './user/user.service';
-import { HadithService } from './hadith/hadith.service';
-import { HadithController } from './hadith/hadith.controller';
+import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { HadithModule } from './hadith/hadith.module';
 
 @Module({
-  imports: [MongooseModule.forRoot(`mongodb+srv://${process.env.GEDUNG_HADITH_USERNAME}:${process.env.GEDUNG_HADITH_PASSWORD}@cluster0.tmrqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)],
-  controllers: [AppController, UserController, HadithController],
-  providers: [AppService, UserService, HadithService],
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.GEDUNG_HADITH_MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
+    // UserModule,
+    HadithModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
