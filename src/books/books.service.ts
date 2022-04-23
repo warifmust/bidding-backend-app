@@ -16,9 +16,7 @@ export class BooksService {
   }
 
   async getBookById(bookId: string): Promise<BooksResDto> {
-    const book = await this.booksModel
-      .findById({ _id: bookId })
-      .exec();
+    const book = await this.booksModel.findById({ _id: bookId }).exec();
     if (!book) {
       throw new HttpException('Book not found', HttpStatus.NOT_FOUND);
     }
@@ -27,20 +25,14 @@ export class BooksService {
 
   async createBook(params: BooksReqDto): Promise<BooksResDto> {
     return this.booksModel.create({
-        name: params.name,
-        author: params.author,
-        syarah: params.syarah,
-
+      name: params.name,
+      author: params.author,
+      syarah: params.syarah,
     });
   }
 
-  async updateBook(
-    bookId: string,
-    params: BooksReqDto,
-  ): Promise<BooksResDto> {
-    const book = await this.booksModel
-      .findById({ _id: bookId })
-      .exec();
+  async updateBook(bookId: string, params: BooksReqDto): Promise<BooksResDto> {
+    const book = await this.booksModel.findById({ _id: bookId }).exec();
     if (!book) {
       throw new HttpException('Book not found', HttpStatus.NOT_FOUND);
     }
@@ -50,19 +42,25 @@ export class BooksService {
           _id: bookId,
         },
         {
-            ...(params.name && { name: params.name }),
-            ...(params.author && { author: params.author }),
-            ...(params.syarah && { syarah: params.syarah }),
+          ...(params.name && { name: params.name }),
+          ...(params.author && { author: params.author }),
+          ...(params.syarah.syarahList && {
+            syarah: {
+              // TO FIX: SyarahList
+              $push: { syarahList: params.syarah.syarahList },
+              bestSyarah: book.syarah.bestSyarah,
+            },
+          }),
+          ...(params.syarah.bestSyarah && {
+            bestSyarah: params.syarah.bestSyarah,
+          }),
         },
       )
       .exec();
   }
 
   async deleteBook(bookId: string): Promise<BooksResDto> {
-    const hadith = await this.booksModel
-      .findById({ _id: bookId })
-      .exec();
-
+    const hadith = await this.booksModel.findById({ _id: bookId }).exec();
     if (!hadith) {
       throw new HttpException('Book not found', HttpStatus.NOT_FOUND);
     }
