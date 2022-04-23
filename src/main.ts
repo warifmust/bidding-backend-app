@@ -14,7 +14,7 @@ async function bootstrap() {
       'Gedung pengumpulan hadith, tafsiran hadith dan sanad hadith',
     )
     .setVersion('1.0')
-    .addTag('hadith')
+    .addTag('Gedung Hadith')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
