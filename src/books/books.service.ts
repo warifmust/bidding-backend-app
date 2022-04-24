@@ -9,7 +9,7 @@ export class BooksService {
   constructor(
     @InjectModel(Books.name)
     private readonly booksModel: Model<Books>,
-  ) {}
+  ) { }
 
   async getBooks(): Promise<BooksResDto[]> {
     return this.booksModel.find({}).exec();
@@ -27,7 +27,8 @@ export class BooksService {
     return this.booksModel.create({
       name: params.name,
       author: params.author,
-      syarah: params.syarah,
+      bestSyarah: params.bestSyarah,
+      syarahList: params.syarahList,
     });
   }
 
@@ -44,16 +45,8 @@ export class BooksService {
         {
           ...(params.name && { name: params.name }),
           ...(params.author && { author: params.author }),
-          ...(params.syarah.syarahList && {
-            syarah: {
-              // TO FIX: SyarahList
-              $push: { syarahList: params.syarah.syarahList },
-              bestSyarah: book.syarah.bestSyarah,
-            },
-          }),
-          ...(params.syarah.bestSyarah && {
-            bestSyarah: params.syarah.bestSyarah,
-          }),
+          ...(params.bestSyarah && { bestSyarah: params.bestSyarah }),
+          ...(params.syarahList && { $push: { syarahList: params.syarahList } }),
         },
       )
       .exec();

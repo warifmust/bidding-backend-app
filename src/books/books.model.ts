@@ -28,16 +28,6 @@ export class BestSyarah {
   public birthPlace: string;
 }
 
-@Schema({ _id: false })
-export class Syarah {
-  @Prop({ required: true })
-  @IsArray()
-  public syarahList: string[];
-
-  @Prop({ required: true })
-  public bestSyarah: BestSyarah;
-}
-
 @Schema(DefaultSchemaOptions)
 export class Books extends BaseModel {
   @Prop({
@@ -51,6 +41,9 @@ export class Books extends BaseModel {
   @Prop({ required: true })
   public author: Author;
 
+  @Prop({ required: true, type: [String]})
+  public syarahList: [string];
+
   @Prop({ required: true })
-  public syarah: Syarah;
+  public bestSyarah: BestSyarah;
 }
