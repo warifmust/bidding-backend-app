@@ -9,15 +9,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Gedung Hadith')
-    .setDescription(
-      'Gedung pengumpulan hadith, tafsiran hadith dan sanad hadith',
-    )
+    .setTitle('Jitera Bidding')
+    .setDescription('Jitera Bidding built with NestJs')
     .setVersion('1.0')
-    .addTag('Gedung Hadith')
+    // .addTag('jitera-bidding')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('jitera-bidding', app, document);
 
   await app.listen(3000);
 

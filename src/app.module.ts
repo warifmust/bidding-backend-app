@@ -3,22 +3,22 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-// import { UserModule } from './user/user.module';
-import { HadithModule } from './hadith/hadith.module';
-import { NarratorsModule } from './narrators/narrators.module';
-import { BooksModule } from './books/books.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { BidsModule } from './bids/bids.module';
+import { ItemsModule } from './items/items.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    UsersModule,
+    AuthModule,
+    BidsModule,
     MongooseModule.forRoot(process.env.GEDUNG_HADITH_MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     }),
-    // UserModule,
-    HadithModule,
-    NarratorsModule,
-    BooksModule,
+    ItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
