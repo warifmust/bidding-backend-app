@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, DepositDto } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users')
@@ -26,5 +26,10 @@ export class UsersController {
   @Get(':email')
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
+  }
+
+  @Put(':id')
+  deposit(@Body() depositDto: DepositDto) {
+    return this.usersService.deposit(depositDto.id, depositDto.balanceAmount);
   }
 }

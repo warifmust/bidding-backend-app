@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateItemDto {
   @IsString()
@@ -16,4 +22,8 @@ export class CreateItemDto {
   @IsString()
   @IsOptional()
   belongsTo?: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  expired: boolean;
 }

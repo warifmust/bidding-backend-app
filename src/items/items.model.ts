@@ -14,4 +14,7 @@ export class Items extends BaseModel {
 
   @Prop({ required: false })
   public belongsTo?: string;
+
+  @Prop({ required: true, default: false })
+  public expired: boolean;
 }

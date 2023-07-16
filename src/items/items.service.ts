@@ -39,4 +39,13 @@ export class ItemsService {
     }
     return item;
   }
+
+  async updateExpiry(id: string, expired: boolean) {
+    const item = await this.itemsModel.findById({ _id: id }).exec();
+    if (!item) {
+      throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
+    }
+
+    return item.updateOne({ expired });
+  }
 }

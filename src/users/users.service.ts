@@ -67,4 +67,12 @@ export class UsersService {
     }
     return user;
   }
+
+  async deposit(id: string, amount: number): Promise<CreateUserDto> {
+    const user = await this.usersModel.findOne({ _id: id });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user.updateOne({ $inc: { balanceAmount: amount } });
+  }
 }
