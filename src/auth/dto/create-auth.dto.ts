@@ -1,6 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class CreateAuthReqDto {
+export class RegisterReqDto {
   @IsString()
   @IsOptional()
   name?: string;
@@ -12,13 +12,9 @@ export class CreateAuthReqDto {
   @IsString()
   @IsNotEmpty()
   email: string;
-
-  @IsString()
-  @IsOptional()
-  accessToken?: string;
 }
 
-export class CreateAuthResDto {
+export class RegisterResDto {
   @IsString()
   @IsOptional()
   name?: string;
@@ -30,11 +26,40 @@ export class CreateAuthResDto {
   @IsString()
   @IsOptional()
   accessToken?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  id: string;
 }
 
-export class SignInDto {
+export class SignInReqDto {
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
+
+export class SignInResDto {
   @IsString()
   @IsNotEmpty()
   accessToken: string;
-}
 
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  balanceAmount?: number;
+}

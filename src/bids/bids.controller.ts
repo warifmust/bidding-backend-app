@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { BidsService } from './bids.service';
 import { CreateBidDto } from './dto/create-bid.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -27,5 +21,10 @@ export class BidsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.bidsService.findOne(id);
+  }
+
+  @Get('items/:id')
+  findBidsForOneItem(@Param('id') itemId: string) {
+    return this.bidsService.findBidsForOneItem(itemId);
   }
 }

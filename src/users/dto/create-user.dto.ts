@@ -16,6 +16,10 @@ export class CreateUserDto {
   @IsNumber()
   @IsNotEmpty()
   balanceAmount?: number;
+
+  @IsString()
+  @IsNotEmpty()
+  id?: string;
 }
 
 export class DepositDto {

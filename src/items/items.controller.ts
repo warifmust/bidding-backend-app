@@ -25,10 +25,7 @@ export class ItemsController {
   }
 
   @Put(':id')
-  deposit(@Body() updateExpiredDto: UpdateExpiredDto) {
-    return this.itemsService.updateExpiry(
-      updateExpiredDto.id,
-      updateExpiredDto.expired,
-    );
+  expireItem(@Body() updateExpiredDto: UpdateExpiredDto) {
+    return this.itemsService.expireItem(updateExpiredDto.id);
   }
 }

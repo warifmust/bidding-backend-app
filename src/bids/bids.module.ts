@@ -6,9 +6,12 @@ import { Bids } from './bids.model';
 import { BullModule } from '@nestjs/bull';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { REGISTER_QUEUE_NAME } from './bids.const';
+import { BidsGateway } from './bids.gateway';
+import { ItemsModule } from '../items/items.module';
 
 @Module({
   imports: [
+    ItemsModule,
     ConfigModule.forRoot(),
     MongooseModule.forFeature([{ name: Bids.name, schema: Bids.schema }]),
     BullModule.forRootAsync({
@@ -26,6 +29,7 @@ import { REGISTER_QUEUE_NAME } from './bids.const';
     }),
   ],
   controllers: [BidsController],
-  providers: [BidsService, MongooseModule],
+  providers: [BidsService, BidsGateway],
+  exports: [BidsService],
 })
 export class BidsModule {}

@@ -40,12 +40,12 @@ export class ItemsService {
     return item;
   }
 
-  async updateExpiry(id: string, expired: boolean) {
+  async expireItem(id: string) {
     const item = await this.itemsModel.findById({ _id: id }).exec();
     if (!item) {
       throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
     }
 
-    return item.updateOne({ expired });
+    return item.updateOne({ expired: true });
   }
 }

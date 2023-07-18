@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import {
-  CreateAuthReqDto,
-  CreateAuthResDto,
-  SignInDto,
+  RegisterReqDto,
+  RegisterResDto,
+  SignInResDto,
 } from './dto/create-auth.dto';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -15,21 +15,23 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(createAuthDto: CreateAuthReqDto): Promise<CreateAuthResDto> {
-    const registerUser = await this.usersService.create(createAuthDto);
+  async register(registerReqDto: RegisterReqDto): Promise<RegisterResDto> {
+    const registerUser = await this.usersService.create(registerReqDto);
     const signInUser = await this.signIn(
-      createAuthDto.email,
-      createAuthDto.password,
+      registerReqDto.email,
+      registerReqDto.password,
     );
 
     return {
+      accessToken: signInUser.accessToken,
       name: registerUser.name,
       email: registerUser.email,
-      accessToken: signInUser.accessToken,
+      id: signInUser.id,
+      ...(signInUser.balanceAmount && { balanceAmount: signInUser.balanceAmount }),
     };
   }
 
-  async signIn(email: string, password: string): Promise<SignInDto> {
+  async signIn(email: string, password: string): Promise<SignInResDto> {
     const user = await this.usersService.findOneByEmail(email);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -39,6 +41,10 @@ export class AuthService {
 
     return {
       accessToken: await this.jwtService.signAsync(payload),
+      name: user.name,
+      email: user.email,
+      id: user.id,
+      ...(user.balanceAmount && { balanceAmount: user.balanceAmount }),
     };
   }
 }

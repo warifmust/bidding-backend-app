@@ -44,7 +44,7 @@ export class UsersService {
       name: createUserDto.name,
       email: createUserDto.email,
       password: hashedPassword,
-      balanceAmount: createUserDto.balanceAmount,
+      balanceAmount: createUserDto.balanceAmount || 0,
     });
   }
 

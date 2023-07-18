@@ -28,7 +28,7 @@ export class UsersController {
     return this.usersService.findOneByEmail(email);
   }
 
-  @Put(':id')
+  @Put('deposit')
   deposit(@Body() depositDto: DepositDto) {
     return this.usersService.deposit(depositDto.id, depositDto.balanceAmount);
   }
