@@ -8,8 +8,4 @@ export class UpdateExpiredDto {
   @IsString()
   @IsNotEmpty()
   id: string;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  expired: boolean;
 }

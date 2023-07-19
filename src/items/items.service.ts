@@ -25,11 +25,12 @@ export class ItemsService {
       itemName: createItemDto.itemName,
       price: createItemDto.price,
       durationInMinutes: createItemDto.durationInMinutes,
+      belongsTo: '',
     });
   }
 
   async findAll(): Promise<CreateItemDto[]> {
-    return this.itemsModel.find({});
+    return this.itemsModel.find({}).sort({ createdAt: -1 });
   }
 
   async findOne(id: string): Promise<CreateItemDto> {
@@ -40,12 +41,22 @@ export class ItemsService {
     return item;
   }
 
-  async expireItem(id: string) {
+  async findOneAndExpire(id: string): Promise<CreateItemDto> {
     const item = await this.itemsModel.findById({ _id: id }).exec();
     if (!item) {
       throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
     }
-
     return item.updateOne({ expired: true });
+  }
+
+  async nominateBidWinner(
+    id: string,
+    bidderName: string,
+  ): Promise<CreateItemDto> {
+    const item = await this.itemsModel.findById({ _id: id }).exec();
+    if (!item) {
+      throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
+    }
+    return item.updateOne({ belongsTo: bidderName });
   }
 }

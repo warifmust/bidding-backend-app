@@ -8,6 +8,10 @@ import {
 
 export class CreateItemDto {
   @IsString()
+  @IsOptional()
+  _id?: string;
+
+  @IsString()
   @IsNotEmpty()
   itemName: string;
 
@@ -26,4 +30,10 @@ export class CreateItemDto {
   @IsBoolean()
   @IsNotEmpty()
   expired: boolean;
+}
+
+export class NominateBidWinnerDto {
+  @IsString()
+  @IsNotEmpty()
+  bidderName: string;
 }

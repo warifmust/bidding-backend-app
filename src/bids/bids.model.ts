@@ -8,4 +8,7 @@ export class Bids extends BaseModel {
 
   @Prop({ required: true })
   public itemId: string;
+
+  @Prop({ required: false })
+  public bidderName: string;
 }

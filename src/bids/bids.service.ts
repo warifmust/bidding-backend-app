@@ -12,6 +12,7 @@ import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { REGISTER_QUEUE_NAME } from './bids.const';
 import { ItemsService } from '../items/items.service';
+import { CreateItemDto } from '../items/dto/create-item.dto';
 
 @Injectable()
 export class BidsService {
@@ -39,6 +40,7 @@ export class BidsService {
     const bid = await this.bidsModel.create({
       price: createBidDto.price,
       itemId: createBidDto.itemId,
+      bidderName: createBidDto.bidderName,
     });
 
     // Add bid to queue to process
@@ -48,7 +50,7 @@ export class BidsService {
   }
 
   async findAll(): Promise<CreateBidDto[]> {
-    return this.bidsModel.find({});
+    return this.bidsModel.find({}).sort({ createdAt: -1 });
   }
 
   async findOne(id: string): Promise<CreateBidDto> {
@@ -63,5 +65,19 @@ export class BidsService {
     const bids = await this.bidsModel.find({ itemId }).exec();
 
     return bids;
+  }
+
+  async findOneAndNominate(id: string): Promise<CreateItemDto> {
+    const item = await this.itemsService.findOne(id);
+    if (!item) {
+      throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
+    }
+    const bids = await this.findBidsForOneItem(id);
+
+    const highestBidder = bids.reduce(function (prev, current) {
+      return prev.price > current.price ? prev : current;
+    });
+
+    return this.itemsService.nominateBidWinner(id, highestBidder.bidderName);
   }
 }
