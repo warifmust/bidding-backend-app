@@ -29,33 +29,41 @@
 ## Installation
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
+```
+
+## View the API
+
+This project utilize the Swagger API builder. To view the list of API, please follow the previous steps:
+```
+1. Run the server with yarn start:dev
+2. Open the Swagger API client with url http://localhost:3000/api
 ```
 
 ## Support
