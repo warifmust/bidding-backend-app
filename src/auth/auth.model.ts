@@ -1,5 +1,8 @@
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { BaseModel } from '../shared/base.model';
+import { HydratedDocument } from 'mongoose';
+
+export type AuthDocument = HydratedDocument<Auth>;
 
 @Schema({ timestamps: true })
 export class Auth extends BaseModel {
@@ -12,3 +15,5 @@ export class Auth extends BaseModel {
   @Prop({ required: false })
   name?: string;
 }
+
+export const AuthSchema = SchemaFactory.createForClass(Auth);

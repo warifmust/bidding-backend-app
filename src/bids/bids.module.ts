@@ -2,18 +2,20 @@ import { Module } from '@nestjs/common';
 import { BidsService } from './bids.service';
 import { BidsController } from './bids.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Bids } from './bids.model';
+import { Bids, BidsSchema } from './bids.model';
 import { BullModule } from '@nestjs/bull';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { REGISTER_QUEUE_NAME } from './bids.const';
 import { BidsGateway } from './bids.gateway';
 import { ItemsModule } from '../items/items.module';
+import { Users, UsersSchema } from '../users/users.model';
 
 @Module({
   imports: [
     ItemsModule,
     ConfigModule.forRoot(),
-    MongooseModule.forFeature([{ name: Bids.name, schema: Bids.schema }]),
+    MongooseModule.forFeature([{ name: Bids.name, schema: BidsSchema }]),
+    MongooseModule.forFeature([{ name: Users.name, schema: UsersSchema }]),
     BullModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
