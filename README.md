@@ -66,6 +66,21 @@ This project utilize the Swagger API builder. To view the list of API, please fo
 2. Open the Swagger API client with url http://localhost:3000/api
 ```
 
+## Environment
+
+To run this project, `.env` is needed. Please copy this env variables below before running the server.
+```
+GEDUNG_HADITH_USERNAME=gedungHadithAdmin
+GEDUNG_HADITH_PASSWORD=q6F62Q5Lm6aXjCNU
+
+GEDUNG_HADITH_MONGO_URI='mongodb+srv://gedungHadithAdmin:q6F62Q5Lm6aXjCNU@cluster0.tmrqn.mongodb.net/gedungHadith?retryWrites=true&w=majority'
+
+REDIS_PORT=3679
+REDIS_HOST=localhost
+REDIS_TLS=true
+REDIS_SENTINEL_MODE=false
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
