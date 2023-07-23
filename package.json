@@ -39,6 +39,7 @@
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.0",
     "jsonwebtoken": "^8.5.1",
+    "mockingoose": "^2.16.2",
     "mongoose": "^6.3.0",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",

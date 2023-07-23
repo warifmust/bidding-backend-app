@@ -12,9 +12,9 @@ export class BidsController {
     operationId: 'bidItem',
     description: 'Bid item',
   })
-  @Post()
-  create(@Body() createBidDto: CreateBidDto) {
-    return this.bidsService.create(createBidDto);
+  @Post(':userId')
+  create(@Param('userId') userId: string, @Body() createBidDto: CreateBidDto) {
+    return this.bidsService.create(createBidDto, userId);
   }
 
   @ApiOperation({

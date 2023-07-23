@@ -13,18 +13,24 @@ import { Queue } from 'bull';
 import { REGISTER_QUEUE_NAME } from './bids.const';
 import { ItemsService } from '../items/items.service';
 import { CreateItemDto } from '../items/dto/create-item.dto';
+import { Users } from '../users/users.model';
 
 @Injectable()
 export class BidsService {
   constructor(
     @InjectModel(Bids.name)
     private readonly bidsModel: Model<Bids>,
+    @InjectModel(Users.name)
+    private readonly usersModel: Model<Users>,
     @InjectQueue(REGISTER_QUEUE_NAME)
     private readonly biddingQueue: Queue,
     private itemsService: ItemsService,
   ) {}
 
-  async create(createBidDto: CreateBidDto): Promise<CreateBidDto> {
+  async create(
+    createBidDto: CreateBidDto,
+    userId: string,
+  ): Promise<CreateBidDto> {
     const item = await this.itemsService.findOne(createBidDto.itemId);
     if (!item) {
       throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
@@ -42,6 +48,19 @@ export class BidsService {
       itemId: createBidDto.itemId,
       bidderName: createBidDto.bidderName,
     });
+
+    const user = await this.usersModel.findOneAndUpdate(
+      {
+        _id: userId,
+      },
+      {
+        $inc: {
+          balanceAmount: -createBidDto.price,
+        },
+      },
+    );
+
+    console.log({ user, userId });
 
     // Add bid to queue to process
     // TODO: Fix Bull and Redis loading bug

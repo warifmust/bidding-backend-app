@@ -53,7 +53,7 @@ export class UsersService {
   }
 
   async findOneById(id: string): Promise<CreateUserDto> {
-    const user = await this.usersModel.findById({ _id: id }).exec();
+    const user = await this.usersModel.findById({ _id: id });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -61,7 +61,7 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<CreateUserDto> {
-    const user = await this.usersModel.findOne({ email }).exec();
+    const user = await this.usersModel.findOne({ email });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -73,6 +73,9 @@ export class UsersService {
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-    return user.updateOne({ $inc: { balanceAmount: amount } });
+    return this.usersModel.findByIdAndUpdate(
+      { _id: id },
+      { $inc: { balanceAmount: amount } },
+    );
   }
 }
