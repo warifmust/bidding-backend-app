@@ -44,15 +44,15 @@ export class ItemsController {
     return this.itemsService.findOneAndExpire(id);
   }
 
-  @ApiOperation({
-    operationId: 'nominateBidWinner',
-    description: 'Find an item and nominate bid winner',
-  })
-  @Put('nominate/:id/:bidderName')
-  nominateBidWinner(
-    @Param('id') id: string,
-    @Param('bidderName') bidderName: string,
-  ) {
-    return this.itemsService.nominateBidWinner(id, bidderName);
-  }
+  // @ApiOperation({
+  //   operationId: 'nominateBidWinner',
+  //   description: 'Find an item and nominate bid winner',
+  // })
+  // @Put('nominate/:id/:bidderName')
+  // nominateBidWinner(
+  //   @Param('id') id: string,
+  //   @Param('bidderName') bidderName: string,
+  // ) {
+  //   return this.itemsService.nominateBidWinner(id, bidderName);
+  // }
 }

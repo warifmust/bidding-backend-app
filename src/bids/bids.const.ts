@@ -1,1 +1,1 @@
-export const REGISTER_QUEUE_NAME = 'bidding-transcode';
+export const BIDS_QUEUE_NAME = 'bids-queue';

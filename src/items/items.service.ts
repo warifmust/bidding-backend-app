@@ -8,12 +8,16 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Items } from './items.model';
 import { Model } from 'mongoose';
+// import { InjectQueue } from '@nestjs/bull';
+// import { ITEMS_QUEUE_NAME } from './items.const';
+// import { Queue } from 'bull';
 
 @Injectable()
 export class ItemsService {
   constructor(
     @InjectModel(Items.name)
     private readonly itemsModel: Model<Items>,
+    // @InjectQueue(ITEMS_QUEUE_NAME) private itemsQueue: Queue,
   ) {}
 
   async create(createItemDto: CreateItemDto): Promise<CreateItemDto> {
@@ -30,7 +34,10 @@ export class ItemsService {
   }
 
   async findAll(): Promise<CreateItemDto[]> {
-    return this.itemsModel.find({}).sort({ createdAt: -1 });
+    const items = await this.itemsModel.find({}).sort({ createdAt: -1 });
+
+    // await this.itemsQueue.add(items);
+    return items;
   }
 
   async findOne(id: string): Promise<CreateItemDto> {

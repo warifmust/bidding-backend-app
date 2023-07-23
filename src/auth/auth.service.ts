@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import {
   RegisterReqDto,
   RegisterResDto,
@@ -16,19 +20,26 @@ export class AuthService {
   ) {}
 
   async register(registerReqDto: RegisterReqDto): Promise<RegisterResDto> {
-    const registerUser = await this.usersService.create(registerReqDto);
-    const signInUser = await this.signIn(
-      registerReqDto.email,
-      registerReqDto.password,
-    );
+    let registerUser: RegisterReqDto;
+    try {
+      registerUser = await this.usersService.create(registerReqDto);
 
-    return {
-      accessToken: signInUser.accessToken,
-      name: registerUser.name,
-      email: registerUser.email,
-      id: signInUser.id,
-      ...(signInUser.balanceAmount && { balanceAmount: signInUser.balanceAmount }),
-    };
+      const signInUser = await this.signIn(
+        registerReqDto.email,
+        registerReqDto.password,
+      );
+      return {
+        accessToken: signInUser.accessToken,
+        name: registerUser.name,
+        email: registerUser.email,
+        id: signInUser.id,
+        ...(signInUser.balanceAmount && {
+          balanceAmount: signInUser.balanceAmount,
+        }),
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   async signIn(email: string, password: string): Promise<SignInResDto> {

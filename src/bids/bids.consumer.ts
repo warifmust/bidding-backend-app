@@ -1,9 +1,9 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
-import { REGISTER_QUEUE_NAME } from './bids.const';
+import { BIDS_QUEUE_NAME } from './bids.const';
 
-@Processor(REGISTER_QUEUE_NAME)
+@Processor(BIDS_QUEUE_NAME)
 export class BidsConsumer {
   private readonly logger = new Logger(BidsConsumer.name);
 
