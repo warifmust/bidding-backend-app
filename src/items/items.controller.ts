@@ -48,7 +48,7 @@ export class ItemsController {
     operationId: 'nominateBidWinner',
     description: 'Find an item and nominate bid winner',
   })
-  @Put('nominate/:id')
+  @Put('nominate/:id/:bidderName')
   nominateBidWinner(
     @Param('id') id: string,
     @Param('bidderName') bidderName: string,

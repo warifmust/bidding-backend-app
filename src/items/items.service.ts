@@ -34,7 +34,7 @@ export class ItemsService {
   }
 
   async findOne(id: string): Promise<CreateItemDto> {
-    const item = await this.itemsModel.findById({ _id: id }).exec();
+    const item = await this.itemsModel.findById({ _id: id });
     if (!item) {
       throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
     }
@@ -42,21 +42,25 @@ export class ItemsService {
   }
 
   async findOneAndExpire(id: string): Promise<CreateItemDto> {
-    const item = await this.itemsModel.findById({ _id: id }).exec();
+    const item = await this.itemsModel.findById({ _id: id });
     if (!item) {
       throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
     }
-    return item.updateOne({ expired: true });
+    return this.itemsModel.findOneAndUpdate({ _id: id }, { expired: true });
   }
 
   async nominateBidWinner(
     id: string,
     bidderName: string,
   ): Promise<CreateItemDto> {
-    const item = await this.itemsModel.findById({ _id: id }).exec();
+    const item = await this.itemsModel.findById({ _id: id });
     if (!item) {
       throw new HttpException('Item not found', HttpStatus.NOT_FOUND);
     }
-    return item.updateOne({ belongsTo: bidderName });
+
+    return this.itemsModel.findByIdAndUpdate(
+      { _id: id },
+      { belongsTo: bidderName },
+    );
   }
 }
