@@ -63,12 +63,14 @@ export class BidsService {
 
     // Add bid to queue to process
     // TODO: Fix Bull and Redis loading bug
-    // await this.biddingQueue.add({ bid });
+    // await this.biddingQueue.add(bid);
     return bid;
   }
 
   async findAll(): Promise<CreateBidDto[]> {
     return this.bidsModel.find({}).sort({ createdAt: -1 });
+
+    // await this.biddingQueue.add(bids);
   }
 
   async findOne(id: string): Promise<CreateBidDto> {
@@ -92,6 +94,7 @@ export class BidsService {
     // // }
     const bids = await this.findBidsForOneItem(id);
 
+    // Find highest bidder
     const highestBidder = bids.reduce(function (prev, current) {
       return prev.price > current.price ? prev : current;
     });

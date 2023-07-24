@@ -15,9 +15,9 @@ import { Model } from 'mongoose';
 @Injectable()
 export class ItemsService {
   constructor(
+    // @InjectQueue(ITEMS_QUEUE_NAME) private itemsQueue: Queue,
     @InjectModel(Items.name)
     private readonly itemsModel: Model<Items>,
-    // @InjectQueue(ITEMS_QUEUE_NAME) private itemsQueue: Queue,
   ) {}
 
   async create(createItemDto: CreateItemDto): Promise<CreateItemDto> {
@@ -25,12 +25,15 @@ export class ItemsService {
       throw new BadRequestException('Price cannot zero or negative');
     }
 
-    return this.itemsModel.create({
+    const item = await this.itemsModel.create({
       itemName: createItemDto.itemName,
       price: createItemDto.price,
       durationInMinutes: createItemDto.durationInMinutes,
       belongsTo: '',
     });
+
+    // await this.itemsQueue.add(item);
+    return item;
   }
 
   async findAll(): Promise<CreateItemDto[]> {
